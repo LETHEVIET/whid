@@ -8,7 +8,7 @@
     "generate-icon": "node scripts/generate-icons.mjs",
     "build": "electron-vite build && pnpm generate-icon",
     "preview": "electron-vite preview",
-    "dist": "electron-vite build && pnpm generate-icon && electron-builder",
+    "dist": "electron-vite build && pnpm generate-icon && electron-builder --publish never",
     "rebuild": "electron-rebuild",
     "postinstall": "electron-rebuild"
   },
