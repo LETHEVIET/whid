@@ -156,7 +156,7 @@ function createTray(): void {
     }
   ])
 
-  tray.setToolTip('What Have I Done Today')
+  tray.setToolTip('Whid')
   tray.setContextMenu(contextMenu)
 
   tray.on('click', () => toggleWindow())

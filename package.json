@@ -1,7 +1,7 @@
 {
-  "name": "what-have-i-done-today",
+  "name": "whid",
   "version": "0.1.0",
-  "description": "Log daily accomplishments from the system tray",
+  "description": "A quick-capture scratchpad for fleeting thoughts",
   "main": "./out/main/index.js",
   "scripts": {
     "dev": "electron-vite dev",
@@ -41,8 +41,8 @@
     ]
   },
   "build": {
-    "appId": "com.whid.today",
-    "productName": "What Have I Done Today",
+    "appId": "com.whid.app",
+    "productName": "Whid",
     "directories": {
       "output": "release"
     },

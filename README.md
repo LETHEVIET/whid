@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="./build/icon.svg" width="96" height="96" alt="What Have I Done Today icon">
-  <h1 align="center">What Have I Done Today</h1>
-  <p align="center">A system-tray daily log app for tracking your accomplishments.</p>
+  <img src="./build/icon.svg" width="96" height="96" alt="Whid icon">
+  <h1 align="center">Whid</h1>
+  <p align="center"><i>What Have I Done</i> — a quick-capture scratchpad for fleeting thoughts.</p>
   <p align="center">
     <a href="#features">Features</a> ·
     <a href="#install">Install</a> ·
@@ -12,19 +12,19 @@
 
 ---
 
-A minimalist Electron app that lives in your system tray. Log short daily entries with optional colored tags, view your history, and track your activity with a GitHub-style calendar.
+A minimalist Electron app that lives in your system tray. Jot down quick notes, tag them with colors, browse your history, and track your activity with a GitHub-style calendar.
 
 Built with Electron, React, TypeScript, SQLite, and the [Zed Light System](https://base-ui.com) design language.
 
 ## Features
 
-- **Quick logging** — Type an entry and press Enter. Tag it with colors.
-- **History** — Browse past entries by date. Edit or delete from the history view.
+- **Quick capture** — Type a note and press Enter. Tag it with colors.
+- **History** — Browse past notes by date. Edit or delete from the history view.
 - **Dashboard** — GitHub-style activity calendar and weekly breakdown by tag.
-- **Inline editing** — Double-click any entry to edit. Three-dot menu for copy, tags, delete.
+- **Inline editing** — Double-click any note to edit. Three-dot menu for copy, tags, delete.
 - **Settings** — Always-on-top, auto-hide on blur, sound effects, and data storage location.
-- **Audio feedback** — Subtle Web Audio API sounds for log/delete actions (toggleable).
-- **Tags** — Create, edit, and delete colored tags to categorize your entries.
+- **Audio feedback** — Subtle Web Audio API sounds for add/delete actions (toggleable).
+- **Tags** — Create, edit, and delete colored tags to categorize your notes.
 
 ## Install
 
@@ -33,8 +33,8 @@ Built with Electron, React, TypeScript, SQLite, and the [Zed Light System](https
 Download the latest `.AppImage` from the [releases page](https://github.com/viet/whid/releases).
 
 ```bash
-chmod +x What-Have-I-Done-Today-*.AppImage
-./What-Have-I-Done-Today-*.AppImage
+chmod +x Whid-*.AppImage
+./Whid-*.AppImage
 ```
 
 ### macOS / Windows
