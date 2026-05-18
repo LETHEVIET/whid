@@ -3,3 +3,4 @@ out/
 data/
 release/
 *.db
+dist

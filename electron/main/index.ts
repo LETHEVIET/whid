@@ -1,6 +1,7 @@
 import { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, globalShortcut, screen, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import { autoUpdater } from 'electron-updater'
 import * as db from './database'
 
 let mainWindow: BrowserWindow | null = null
@@ -185,6 +186,35 @@ function toggleWindow(): void {
   }
 }
 
+function setupAutoUpdater(): void {
+  autoUpdater.autoDownload = false
+  autoUpdater.autoInstallOnAppQuit = true
+
+  autoUpdater.on('checking-for-update', () => {
+    mainWindow?.webContents.send('update:checking')
+  })
+
+  autoUpdater.on('update-available', (info) => {
+    mainWindow?.webContents.send('update:available', info)
+  })
+
+  autoUpdater.on('update-not-available', (info) => {
+    mainWindow?.webContents.send('update:not-available', info)
+  })
+
+  autoUpdater.on('download-progress', (progress) => {
+    mainWindow?.webContents.send('update:download-progress', progress)
+  })
+
+  autoUpdater.on('update-downloaded', (info) => {
+    mainWindow?.webContents.send('update:downloaded', info)
+  })
+
+  autoUpdater.on('error', (err) => {
+    mainWindow?.webContents.send('update:error', err.message ?? err)
+  })
+}
+
 function registerIpcHandlers(): void {
   ipcMain.handle('db:getTodayEntries', () => db.getTodayEntries())
   ipcMain.handle('db:getEntriesByDate', (_e, date: string) => db.getEntriesByDate(date))
@@ -203,6 +233,7 @@ function registerIpcHandlers(): void {
   ipcMain.handle('window:minimize', () => mainWindow?.minimize())
   ipcMain.handle('window:setAlwaysOnTop', (_e, value: boolean) => {
     mainWindow?.setAlwaysOnTop(value)
+    setImmediate(() => mainWindow?.focus())
   })
   ipcMain.handle('window:setAutoHideOnBlur', (_e, value: boolean) => {
     autoHideOnBlur = value
@@ -222,16 +253,43 @@ function registerIpcHandlers(): void {
   ipcMain.handle('db:setPath', (_e, newDir: string) => {
     return db.setDbDir(newDir)
   })
+
+  ipcMain.handle('app:getVersion', () => app.getVersion())
+
+  ipcMain.handle('update:check', async () => {
+    try {
+      await autoUpdater.checkForUpdates()
+    } catch {
+      // error event will fire instead
+    }
+  })
+
+  ipcMain.handle('update:download', async () => {
+    try {
+      await autoUpdater.downloadUpdate()
+    } catch {
+      // error event will fire instead
+    }
+  })
+
+  ipcMain.handle('update:install', () => {
+    setImmediate(() => autoUpdater.quitAndInstall())
+  })
 }
 
 app.whenReady().then(() => {
   registerIpcHandlers()
+  setupAutoUpdater()
   createTray()
   createWindow()
 
   globalShortcut.register('CommandOrControl+Alt+L', () => {
     toggleWindow()
   })
+
+  if (app.isPackaged) {
+    setTimeout(() => autoUpdater.checkForUpdates(), 10000)
+  }
 })
 
 app.on('window-all-closed', () => {

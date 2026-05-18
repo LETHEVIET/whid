@@ -112,8 +112,11 @@ export function Dashboard() {
           maxLevel={4}
           showWeekdayLabels={['mon', 'wed', 'fri']}
           showTotalCount={false}
-          colorScheme="light"
-          theme={{ light: ['#f5f5f5', '#2563eb'] }}
+          colorScheme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'}
+          theme={{
+            light: ['#f5f5f5', '#2563eb'],
+            dark: ['#27272a', '#5C87F9']
+          }}
           labels={{ legend: { less: 'Less', more: 'More' } }}
         />
       </div>

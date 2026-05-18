@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Minus, X, ScrollText, Settings } from 'lucide-react'
 import { ToggleGroup } from '@base-ui/react/toggle-group'
 import { Toggle } from '@base-ui/react/toggle'
@@ -77,6 +77,7 @@ interface TrayPopoverProps {
   onOpenFull: () => void
   onOpenDashboard: () => void
   onOpenSettings: () => void
+  onOpenHelp?: () => void
 }
 
 function SkeletonList() {
@@ -128,6 +129,23 @@ export function TrayPopover({ entries, tags, loading, onAddEntry, onEditEntry, o
     setSelectedTagIds(value.map(Number))
   }
 
+  const handleTagKeyDown = useCallback((e: React.KeyboardEvent) => {
+    const chips = e.currentTarget.querySelectorAll<HTMLButtonElement>('.tag-chip')
+    const currentIndex = Array.from(chips).findIndex(el => el === document.activeElement)
+    if (currentIndex === -1) return
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      const next = chips[(currentIndex + 1) % chips.length]
+      next?.focus()
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      const prev = chips[(currentIndex - 1 + chips.length) % chips.length]
+      prev?.focus()
+    }
+  }, [])
+
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',
@@ -175,6 +193,7 @@ export function TrayPopover({ entries, tags, loading, onAddEntry, onEditEntry, o
           value={selectedTagIds.map(String)}
           onValueChange={handleTagChange}
           className="tag-selector"
+          onKeyDown={handleTagKeyDown}
         >
           {tags.map(tag => (
             <Toggle
@@ -224,10 +243,10 @@ export function TrayPopover({ entries, tags, loading, onAddEntry, onEditEntry, o
       </div>
 
       <div className="popover-footer">
-        <button className="btn-text" onClick={onOpenFull}>History & Tags</button>
-        <button className="btn-text" onClick={onOpenDashboard}>Dashboard</button>
-        <button className="btn-text" onClick={onOpenSettings}><Settings size={12} /> Settings</button>
-        <span className="shortcut-hint">Esc to close</span>
+        <button className="btn-text" onClick={onOpenFull}>History <kbd>H</kbd></button>
+        <button className="btn-text" onClick={onOpenDashboard}>Dashboard <kbd>D</kbd></button>
+        <button className="btn-text" onClick={onOpenSettings}><Settings size={12} /> Settings <kbd>S</kbd></button>
+        <span className="shortcut-hint-mini"><kbd>?</kbd> help · <kbd>Esc</kbd> close</span>
       </div>
     </div>
   )

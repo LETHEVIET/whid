@@ -83,15 +83,25 @@ export function TagManager({ tags, onAdd, onEdit, onDelete }: TagManagerProps) {
         </div>
       )}
 
-      <div className="tag-list">
+      <div className="tag-list" role="list">
         {tags.map(tag => (
-          <div key={tag.id} className="tag-item">
+          <div
+            key={tag.id}
+            className="tag-item"
+            tabIndex={0}
+            role="listitem"
+            aria-label={`Tag: ${tag.name}`}
+            onKeyDown={e => {
+              if (e.key === 'Enter') { e.preventDefault(); startEdit(tag) }
+              if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); onDelete(tag.id) }
+            }}
+          >
             <span className="tag-chip" style={{ backgroundColor: tag.color + '30', color: tag.color, borderColor: tag.color }}>
               {tag.name}
             </span>
             <div className="tag-item-actions">
-              <button className="icon-btn sm" onClick={() => startEdit(tag)} title="Edit"><Pencil size={11} /></button>
-              <button className="icon-btn sm" onClick={() => onDelete(tag.id)} title="Delete"><X size={11} /></button>
+              <button className="icon-btn sm" onClick={() => startEdit(tag)} title="Edit" tabIndex={-1}><Pencil size={11} /></button>
+              <button className="icon-btn sm" onClick={() => onDelete(tag.id)} title="Delete" tabIndex={-1}><X size={11} /></button>
             </div>
           </div>
         ))}

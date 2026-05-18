@@ -74,8 +74,36 @@ export function EntryCard({ entry, allTags, index = 0, onEdit, onDelete, onSetEn
     )
   }
 
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const handleCardKeyDown = (e: React.KeyboardEvent) => {
+    if (editing || showTagEditor) return
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      setEditText(entry.content)
+      setEditing(true)
+    }
+    if (e.key === 'Delete' || e.key === 'Backspace') {
+      e.preventDefault()
+      handleDelete()
+    }
+    if (e.key === 'm' || e.key === 'M') {
+      e.preventDefault()
+      const btn = cardRef.current?.querySelector('.icon-btn') as HTMLButtonElement
+      btn?.click()
+    }
+  }
+
   return (
-    <div className="entry-card entry-card-entrance" style={{ animationDelay: `${index * 30}ms` }}>
+    <div
+      className="entry-card entry-card-entrance"
+      style={{ animationDelay: `${index * 30}ms` }}
+      tabIndex={0}
+      ref={cardRef}
+      onKeyDown={handleCardKeyDown}
+      role="listitem"
+      aria-label={`Entry at ${time}: ${entry.content}`}
+    >
       <span className="entry-time">{time}</span>
       {editing ? (
         <input
@@ -92,7 +120,7 @@ export function EntryCard({ entry, allTags, index = 0, onEdit, onDelete, onSetEn
       ) : (
         <span
           className="entry-text"
-          title="Double-click to edit"
+          title="Double-click or press Enter to edit"
           onDoubleClick={() => {
             setEditText(entry.content)
             setEditing(true)

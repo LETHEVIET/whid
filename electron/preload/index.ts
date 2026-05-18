@@ -24,6 +24,42 @@ const api = {
   onWindowShown: (cb: () => void) => {
     ipcRenderer.on('window-shown', cb)
     return () => ipcRenderer.removeListener('window-shown', cb)
+  },
+
+  getAppVersion: () => ipcRenderer.invoke('app:getVersion'),
+  checkForUpdates: () => ipcRenderer.invoke('update:check'),
+  downloadUpdate: () => ipcRenderer.invoke('update:download'),
+  installUpdate: () => ipcRenderer.invoke('update:install'),
+
+  onUpdateChecking: (cb: () => void) => {
+    const handler = () => cb()
+    ipcRenderer.on('update:checking', handler)
+    return () => ipcRenderer.removeListener('update:checking', handler)
+  },
+  onUpdateAvailable: (cb: (info: { version: string }) => void) => {
+    const handler = (_e: Electron.IpcRendererEvent, info: { version: string }) => cb(info)
+    ipcRenderer.on('update:available', handler)
+    return () => ipcRenderer.removeListener('update:available', handler)
+  },
+  onUpdateNotAvailable: (cb: (info: { version: string }) => void) => {
+    const handler = (_e: Electron.IpcRendererEvent, info: { version: string }) => cb(info)
+    ipcRenderer.on('update:not-available', handler)
+    return () => ipcRenderer.removeListener('update:not-available', handler)
+  },
+  onDownloadProgress: (cb: (progress: { percent: number; bytesPerSecond: number; total: number; transferred: number }) => void) => {
+    const handler = (_e: Electron.IpcRendererEvent, progress: { percent: number; bytesPerSecond: number; total: number; transferred: number }) => cb(progress)
+    ipcRenderer.on('update:download-progress', handler)
+    return () => ipcRenderer.removeListener('update:download-progress', handler)
+  },
+  onUpdateDownloaded: (cb: (info: { version: string }) => void) => {
+    const handler = (_e: Electron.IpcRendererEvent, info: { version: string }) => cb(info)
+    ipcRenderer.on('update:downloaded', handler)
+    return () => ipcRenderer.removeListener('update:downloaded', handler)
+  },
+  onUpdateError: (cb: (message: string) => void) => {
+    const handler = (_e: Electron.IpcRendererEvent, message: string) => cb(message)
+    ipcRenderer.on('update:error', handler)
+    return () => ipcRenderer.removeListener('update:error', handler)
   }
 }
 

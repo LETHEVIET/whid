@@ -27,6 +27,13 @@ interface Entry {
   tags: Tag[]
 }
 
+interface UpdateProgress {
+  percent: number
+  bytesPerSecond: number
+  total: number
+  transferred: number
+}
+
 interface Api {
   getTodayEntries: () => Promise<Entry[]>
   getEntriesByDate: (date: string) => Promise<Entry[]>
@@ -49,6 +56,18 @@ interface Api {
   selectDbPath: () => Promise<string | null>
   setDbPath: (dir: string) => Promise<{ dir: string; file: string } | null>
   onWindowShown: (cb: () => void) => () => void
+
+  getAppVersion: () => Promise<string>
+  checkForUpdates: () => Promise<void>
+  downloadUpdate: () => Promise<void>
+  installUpdate: () => Promise<void>
+
+  onUpdateChecking: (cb: () => void) => () => void
+  onUpdateAvailable: (cb: (info: { version: string }) => void) => () => void
+  onUpdateNotAvailable: (cb: (info: { version: string }) => void) => () => void
+  onDownloadProgress: (cb: (progress: UpdateProgress) => void) => () => void
+  onUpdateDownloaded: (cb: (info: { version: string }) => void) => () => void
+  onUpdateError: (cb: (message: string) => void) => () => void
 }
 
 declare global {

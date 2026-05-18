@@ -43,8 +43,7 @@ jobs:
             libxtst-dev \
             libasound2-dev \
             libsecret-1-dev \
-            libayatana-appindicator3-dev \
-            imagemagick
+            libayatana-appindicator3-dev
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
