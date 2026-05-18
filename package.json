@@ -10,7 +10,7 @@
     "preview": "electron-vite preview",
     "dist": "electron-vite build && pnpm generate-icon && electron-builder",
     "rebuild": "electron-rebuild",
-    "postinstall": "electron-rebuild"
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -58,20 +58,20 @@
       "target": [
         "AppImage"
       ],
-      "icon": "build/icon.svg",
+      "icon": "build/icon.png",
       "category": "Utility"
     },
     "mac": {
       "target": [
         "dmg"
       ],
-      "icon": "build/icon.svg"
+      "icon": "build/icon.png"
     },
     "win": {
       "target": [
         "nsis"
       ],
-      "icon": "build/icon.svg"
+      "icon": "build/icon.png"
     },
     "extraResources": [
       "build/tray-icon.png",
