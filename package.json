@@ -46,6 +46,7 @@
   "build": {
     "appId": "com.whid.app",
     "productName": "Whid",
+    "npmRebuild": false,
     "directories": {
       "output": "release"
     },
