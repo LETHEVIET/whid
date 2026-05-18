@@ -30,7 +30,7 @@ Built with Electron, React, TypeScript, SQLite, and the [Zed Light System](https
 
 ### Linux
 
-Download the latest `.AppImage` from the [releases page](https://github.com/viet/whid/releases).
+Download the latest `.AppImage` from the [releases page](https://github.com/LETHEVIET/whid/releases).
 
 ```bash
 chmod +x Whid-*.AppImage
@@ -39,12 +39,12 @@ chmod +x Whid-*.AppImage
 
 ### macOS / Windows
 
-Download the `.dmg` (macOS) or `.exe` (Windows) from the [releases page](https://github.com/viet/whid/releases).
+Download the `.dmg` (macOS) or `.exe` (Windows) from the [releases page](https://github.com/LETHEVIET/whid/releases).
 
 ### From source
 
 ```bash
-git clone https://github.com/viet/whid.git
+git clone https://github.com/LETHEVIET/whid.git
 cd whid
 pnpm install
 pnpm dist
